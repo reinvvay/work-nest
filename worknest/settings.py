@@ -16,7 +16,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "tasks"
 ]
+
+AUTH_USER_MODEL = "tasks.Worker"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
