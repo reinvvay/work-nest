@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="text-center py-16">
+  <h1 class="text-5xl font-bold mb-6 text-gray-300">Manage Your Tasks Efficiently</h1>
+  <p class="text-lg mb-8 text-gray-500">Stay organized and productive with your personal todo app.</p>
+
+  {% if user.is_authenticated %}
+    <a href="{% url 'tasks:task_list' %}"
+       class="bg-gray-800 text-gray-300 font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-gray-850 transition">
+      My Tasks
+    </a>
+  {% else %}
+    <a href="{% url 'accounts:signup' %}"
+       class="bg-gray-800 text-gray-300 font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-gray-850 transition">
+      Get Started
+    </a>
+  {% endif %}
+
+</div>
+
+<div class="grid md:grid-cols-3 gap-8 mt-24">
+
+  <div class="bg-gray-900 p-8 rounded-xl shadow hover:shadow-lg transition">
+    <h3 class="text-2xl font-semibold mb-3 text-gray-300">Add & Manage Tasks</h3>
+    <p class="text-gray-500">Create tasks, set deadlines, and organize your day efficiently.</p>
+  </div>
+
+  <div class="bg-gray-900 p-8 rounded-xl shadow hover:shadow-lg transition">
+    <h3 class="text-2xl font-semibold mb-3 text-gray-300">Prioritize & Track</h3>
+    <p class="text-gray-500">Mark tasks as important, track progress, and focus on what matters most.</p>
+  </div>
+
+  <div class="bg-gray-900 p-8 rounded-xl shadow hover:shadow-lg transition">
+    <h3 class="text-2xl font-semibold mb-3 text-gray-300">Collaborate with Your Team</h3>
+    <p class="text-gray-500">
+      Assign tasks, track progress, and stay aligned with your team, ensuring everyone knows what to do and when.
+    </p>
+  </div>
+
+</div>
+
+{% endblock %}
