@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="max-w-3xl mx-auto">
+  <div class="flex justify-center">
+    <h1 class="text-4xl font-bold text-gray-300 mb-6">Create New Task</h1>
+  </div>
+
+  <form method="POST" class="space-y-6">
+    {% csrf_token %}
+
+    {% for field in form %}
+      <div>
+        <label class="block text-gray-400 mb-2" for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}
+          <p class="text-red-500 mt-1 text-sm">{{ field.errors|striptags }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    <div class="flex justify-center">
+      <button type="submit" class="px-6 py-3 rounded-lg font-semibold bg-green-600 text-white transition">
+        Create Task
+      </button>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

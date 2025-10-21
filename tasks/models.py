@@ -36,7 +36,9 @@ class Worker(AbstractUser):
         verbose_name_plural = "Workers"
 
     def __str__(self) -> str:
-        return self.username
+        if self.first_name and self.last_name:
+            return f"{self.first_name} {self.last_name} | {self.position}"
+        return f"{self.username} | {self.position}"
 
 
 class Task(models.Model):

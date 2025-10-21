@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="flex justify-center items-center min-h-[70vh]">
+  <div class="bg-gray-900 p-10 rounded-xl shadow-md w-full max-w-md text-center">
+    <h2 class="text-3xl font-bold mb-4 text-gray-300">Welcome to Work Nest!</h2>
+    <p class="text-gray-400 mb-6">Your account has been successfully created and you are now logged in.</p>
+    <a href="{% url 'tasks:task_list' %}" class="bg-gray-850 px-6 py-3 rounded-lg text-gray-300 hover:bg-gray-800 transition">
+      Go to My Tasks
+    </a>
+  </div>
+</div>
+
+{% endblock %}

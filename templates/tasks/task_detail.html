@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="max-w-3xl mx-auto py-12">
+  <h1 class="text-4xl font-bold text-gray-300 mb-4">{{ task.name }}</h1>
+
+  <p class="text-gray-400 mb-2"><strong>Description:</strong> {{ task.description|default:"No description" }}</p>
+  <p class="text-gray-400 mb-2"><strong>Deadline:</strong> {{ task.deadline|date:"M d, Y H:i"|default:"No deadline" }}</p>
+  <p class="text-gray-400 mb-2"><strong>Priority:</strong> {{ task.priority }}</p>
+  <p class="text-gray-400 mb-2"><strong>Type:</strong> {{ task.task_type.name }}</p>
+  <p class="text-gray-400 mb-4"><strong>Assignees:</strong>
+
+    {% for user in task.assignees.all %}
+      {{ user.username }}{% if not forloop.last %}, {% endif %}
+    {% empty %}
+      No assignees
+    {% endfor %}
+
+  </p>
+
+  <p class="text-gray-400 mb-4"><strong>Status:</strong> 
+    {% if task.is_completed %}<span class="text-green-400">Completed ✅</span>
+    {% else %}<span class="text-red-400">Incomplete ⬜</span>{% endif %}
+  </p>
+
+  <a href="{% url 'tasks:task_list' %}" class="text-gray-300 hover:underline">← Back to My Tasks</a>
+</div>
+
+{% endblock %}

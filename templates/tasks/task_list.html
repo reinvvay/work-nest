@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="max-w-5xl mx-auto">
+  <div class="flex items-center justify-between mb-8">
+    <h1 class="text-4xl font-bold text-gray-300">My Tasks</h1>
+    <a href="{% url 'tasks:create_task' %}"
+       class="bg-green-600 px-4 py-2 rounded text-white font-semibold shadow hover:bg-green-700 transition">
+      + Create New Task
+    </a>
+  </div>
+
+  <div class="space-y-4">
+
+    {% for task in tasks %}
+      <div class="bg-gray-900 p-4 rounded shadow hover:shadow-lg transition flex justify-between items-start">
+        <div>
+          <span class="text-gray-300 {% if task.is_completed %}line-through text-gray-500{% endif %}">
+            <a href="{% url 'tasks:task_detail' pk=task.id %}" class="hover:text-gray-500">{{ task.name }}</a>
+          </span>
+
+          <div class="text-gray-400 text-sm mt-1">
+            <p><strong>Description:</strong> {{ task.description|default:"No description" }}</p>
+            <p><strong>Deadline:</strong> {{ task.deadline|date:"M d, Y H:i"|default:"No deadline" }}</p>
+            <p><strong>Priority:</strong> {{ task.priority }}</p>
+            <p><strong>Type:</strong> {{ task.task_type.name }}</p>
+            <p><strong>Assignees:</strong>
+              {% for user in task.assignees.all %}
+                {% if user.first_name and user.last_name %}
+                  {{ user.first_name }} {{ user.last_name }} | {{ user.position }}
+                {% else %}
+                  {{ user.username }} | {{ user.position }}
+                {% endif %}
+                {% if not forloop.last %}, {% endif %}
+              {% empty %}
+                No assignees
+              {% endfor %}
+            </p>
+            <p><strong>Status:</strong>
+              {% if task.is_completed %}
+                <span class="text-green-400">Completed ✅</span>
+              {% else %}
+                <span class="text-red-400">Incomplete ⬜</span>
+              {% endif %}
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-2">
+          <form method="POST" action="{% url 'tasks:toggle' task.pk %}">
+            {% csrf_token %}
+            <button type="submit"
+                    class="px-3 py-1 rounded font-semibold transition
+                    {% if task.is_completed %}
+                      bg-gray-600 text-white
+                    {% else %}
+                      bg-green-800 hover:bg-green-900 text-white
+                    {% endif %}">
+              {% if task.is_completed %}Unmark{% else %}Complete{% endif %}
+            </button>
+          </form>
+
+          <form method="POST" action="{% url 'tasks:delete' task.pk %}">
+            {% csrf_token %}
+            <button type="submit"
+                    class="px-3 py-1 rounded font-semibold bg-red-800 text-white hover:bg-red-900 transition">
+              Delete
+            </button>
+          </form>
+
+        </div>
+      </div>
+
+    {% empty %}
+      <p class="text-gray-400">No tasks available.</p>
+    {% endfor %}
+
+  </div>
+</div>
+
+{% endblock %}
