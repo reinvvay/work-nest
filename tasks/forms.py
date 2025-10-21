@@ -1,4 +1,6 @@
 from django import forms
+from django.utils import timezone
+
 from tasks.models import Task
 
 
@@ -27,3 +29,9 @@ class TaskCreateForm(forms.ModelForm):
                 "class": "w-full p-3 rounded bg-gray-850 text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-700"
             }),
         }
+
+    def clean_deadline(self) -> str | None:
+        deadline = self.cleaned_data.get("deadline")
+        if deadline and deadline < timezone.now():
+                raise forms.ValidationError("The deadline cannot be in the past.")
+        return deadline

@@ -47,3 +47,9 @@ class WorkerUpdateForm(forms.ModelForm):
                 "class": "w-full p-3 rounded bg-gray-850 text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-700"
             }),
         }
+
+    def clean_email(self) -> str | None:
+        email = self.cleaned_data.get("email")
+        if Worker.objects.filter(email=email).exists():
+            raise ValidationError("A user with that email already exists.")
+        return email
